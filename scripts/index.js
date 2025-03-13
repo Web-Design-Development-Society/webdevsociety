@@ -1,4 +1,9 @@
 import { getEvents } from "./events.mjs";
+import {renderHeader} from "./header.mjs";
+import {renderFooter} from "./footer.mjs";
+
+renderHeader();
+renderFooter();
 
 const events = getEvents();
 
@@ -12,11 +17,7 @@ if(windowWidth<840){
     eventSize = 4;
 }
 
-const menuButton = document.querySelector('#menu-button');
 
-menuButton.addEventListener('click', function() {
-    document.querySelector('nav').classList.toggle('open');
-    });
 
 window.addEventListener('resize', function() {
     windowWidth = window.innerWidth;

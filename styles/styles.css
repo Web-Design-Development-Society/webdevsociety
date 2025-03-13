@@ -166,7 +166,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 20px;
   background: none;
   border: none;
-  padding:5px;
+  padding: 7px;
 }
 
 #member-card, #gallery-card, #project-card {
@@ -192,13 +192,14 @@ h1, h2, h3, h4, h5, h6 {
 
 nav {
   background-color: var(--primary-color);
-  max-height: 130px;
+  max-height: 145px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   transition: 1s ease;
   padding: 10px;
+  overflow: hidden;
 }
 
 nav a {
@@ -212,17 +213,16 @@ nav a {
   padding:10px;
 }
 
-nav a:hover {
+nav a:hover, nav a.active {
   color: var(--primary-color);
   background-color: white;
   border-radius: 5px;
   transform: scale(1.05);
 }
 
-#nav-logo:hover {
-  color: none;
+#nav-logo {
   background-color: var(--primary-color);
-  padding: 0px;
+  padding: 10px;
   border-radius: 0px;
 }
 
@@ -436,7 +436,7 @@ footer{
 }
 
 .open{
-  max-height:400px;
+  max-height:500px;
 }
 
 .oddEvent{
