@@ -14,6 +14,22 @@
     {
       "name": "Society Fair",
       "imageURL": "./images/society_fair.jpg"
+    },
+    {
+      "name": "contact page collab with UX",
+      "imageURL": "./images/contactpageuxcollab.jpg"
+    },
+    {
+      "name": "members page collab with UX pic 1",
+      "imageURL": "./images/memberspageuxcollab.jpg"
+    },
+    {
+      "name": "members page collab with UX pic 2",
+      "imageURL": "./images/memberspageuxcollab2.jpg"
+    },
+    {
+      "name": "projects page collab with UX",
+      "imageURL": "./images/projectspageuxcollab.jpg"
     }
   ]
   
