@@ -1,4 +1,6 @@
 ---
+import Footer from '../components/Footer.astro';
+
 type Props = {
     title: string;
 }
@@ -14,6 +16,7 @@ const { title }: Props = Astro.props;
         <title>{title ?? "Web Design & Development Society"}</title>
     </head>
     <body>
-        
+        <slot />
+        <Footer />
     </body>
 </html>

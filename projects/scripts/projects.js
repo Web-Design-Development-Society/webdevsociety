@@ -1,4 +1,4 @@
-import { renderFooter } from "/webdevsociety/scripts/footer.mjs";
+
 import { renderHeader } from "/webdevsociety/scripts/header.mjs";
 
 const previous_projects = [
@@ -44,7 +44,6 @@ const next_projects = [
 
 (function loadPage() {
     renderHeader();
-    renderFooter();
     document.querySelector('.upcoming-projects').innerHTML = nextSectionTemplate();
     document.querySelector('.previous-projects').innerHTML = prevSectionTemplate();
 
