@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Class 1",
+    "imageURL": "class1.jpg"
+  },
+  {
+    "name": "Class 2",
+    "imageURL": "class2.jpg"
+  },
+  {
+    "name": "High School Fair",
+    "imageURL": "highschool_fair.jpg"
+  },
+  {
+    "name": "Society Fair",
+    "imageURL": "society_fair.jpg"
+  },
+  {
+    "name": "contact page collab with UX",
+    "imageURL": "contactpageuxcollab.jpg"
+  },
+  {
+    "name": "members page collab with UX pic 1",
+    "imageURL": "memberspageuxcollab.jpg"
+  },
+  {
+    "name": "members page collab with UX pic 2",
+    "imageURL": "memberspageuxcollab2.jpg"
+  },
+  {
+    "name": "projects page collab with UX",
+    "imageURL": "projectspageuxcollab.jpg"
+  }
+]

@@ -1,0 +1,99 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+---
+
+<link type="text/css" href="styles/mainstyles.css" rel="stylesheet" />
+<SiteLayout title="WDD Society Members">
+  <main>
+    <h1>Profile Pages</h1>
+    <p><i><b>NOTE: This page is still under construction</b></i></p>
+
+    <div class="presidency">
+      <div class="pres">
+        <h2>President:</h2>
+        <img src="#" alt="Picture of Alex Dombroski" />
+        <a href="alexdombroski.html">Alex Dombroski</a>
+      </div>
+
+      <div class="vp">
+        <h2>Vice President:</h2>
+        <img src="#" alt="Picture of Gage D'Orlando" />
+        <a href="gagedorlando.html">Gage D'Orlando</a>
+      </div>
+
+      <div class="marketing">
+        <h2>Marketing:</h2>
+        <img src="#" alt="Picture of Alayna Hart" />
+        <a href="alaynahart.html">Alayna Hart</a>
+      </div>
+
+      <div class="events">
+        <h2>Events:</h2>
+        <img src="#" alt="Picture of Luke Campbell" />
+        <a href="luke.html">Luke Campbell</a>
+      </div>
+
+      <div class="advisor">
+        <h2>Faculty Advisor:</h2>
+        <img src="#" alt="Picture of Brother Alvey" />
+        <a href="#">Brother Alvey</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <a href="alaynahart.html">Alayna Hart</a>
+      <a href="gagedorlando.html">Gage D'Orlando</a>
+      <a href="luke.html">Luke Campbell</a>
+      <a href="peterindex.html">Peter Walter</a>
+      <a href="rogergalan.html">Roger Galan</a>
+      <a href="sethboss.html">Seth Boss</a>
+      <a href="rickyvang.html">Ricky Vang</a>
+      <a href="alexdombroski.html">Alex Dombroski</a>
+      <a href="rylandbangerter.html">Ryland Bangerter</a>
+    </div>
+  </main>
+</SiteLayout>
+
+<style>
+  .card a {
+    display: block;
+    margin: 10px;
+    text-decoration: none;
+  }
+
+  body {
+    text-align: center;
+  }
+
+  .card {
+    display: block;
+    width: calc(80% - 15px);
+    height: 600px;
+    margin: 30px auto;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: left;
+  }
+
+  .presidency {
+    display: block;
+    width: calc(80% - 15px);
+    height: 600px;
+    margin: 30px auto;
+    border-radius: 15px;
+    padding: 15px;
+  }
+
+  .preview {
+    width: 600px;
+    height: 400px;
+    -webkit-transform: scale(0.25);
+    -ms-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    transform-origin: 0 0;
+    border: 4px solid blue;
+    margin: 0 0 -200px 0;
+  }
+</style>

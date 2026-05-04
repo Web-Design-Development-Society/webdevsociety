@@ -1,0 +1,172 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const baseUrl = import.meta.env.BASE_URL;
+
+const previousProjects = [
+  {
+    title: "",
+    urls: [],
+    timeframe: "",
+    desc: "",
+    img: "",
+    alt: "",
+    contributers: [],
+  },
+  {
+    title: "Brother Shoaf's Site",
+    urls: ["https://amhart02.github.io/musicportfolio/"],
+    timeframe: "September 2024 - April 2025",
+    desc: "Brother Shoaf is a music professor who we helped build a site for, showing off his projects, gallery, and other things",
+    img: "musicportfolio.png",
+    alt: "Brother Shoaf's music portfolio",
+    contributers: ["Alayna Hart", "Ricky Vang"],
+  },
+  {
+    title: "Halloween Websites",
+    urls: [
+      "https://alexanderdombroski.github.io/halloween/",
+      "https://gagedorl.github.io/halloweensite/index.html",
+    ],
+    timeframe: "October 2024",
+    desc: "Halloween Sites were created in preparation for halloween and to show to the high schoolers in Rexburg",
+    img: "halloween-sites.jpg",
+    alt: "showing off halloween sites in high school",
+    contributers: ["Alex Dombroski", "Ellie Talbot", "Amitai Finlayson"],
+  },
+];
+
+const nextProjects = [
+  {
+    title: "Society Page",
+    desc: "We will finish the society page, and add projects and members as semesters go on.",
+    timeframe: "Sept 2024 - ongoing",
+  },
+];
+---
+
+<SiteLayout title="Projects">
+  <main>
+    <div id="hero-img">
+      <h1 id="motto">Projects</h1>
+      <img
+        src={`${baseUrl}/images/projects/hero.jpeg`}
+        class="hero-image"
+        id="cool-picture"
+        alt="people working on a project"
+      />
+    </div>
+
+    <section class="upcoming-projects centered">
+      <h2>Upcoming Projects</h2>
+
+      {
+        nextProjects.map((project) => (
+          <article>
+            <h3>{project.title}</h3>
+            <p>{project.desc}</p>
+            {project.timeframe && <p>{project.timeframe}</p>}
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="previous-projects">
+      <h2>Past Projects</h2>
+
+      {
+        previousProjects.map((project) => (
+          <article>
+            <div>
+              <h3>{project.title}</h3>
+
+              {project.urls.length > 0 && (
+                <ul>
+                  {project.urls.map((url) => (
+                    <li>
+                      <a href={url} target="_blank" rel="noopener noreferrer">
+                        {url}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {project.timeframe && <p>{project.timeframe}</p>}
+              {project.contributers.length > 0 && (
+                <p>{project.contributers.join(", ")}</p>
+              )}
+              {project.desc && <p>{project.desc}</p>}
+            </div>
+
+            {project.img && (
+              <img
+                src={`${baseUrl}/images/projects/project-images/${project.img}`}
+                alt={project.alt}
+              />
+            )}
+          </article>
+        ))
+      }
+    </section>
+  </main>
+</SiteLayout>
+
+<style>
+  .hero-image {
+    height: 400px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .centered {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: inherit 1rem;
+  }
+
+  .previous-projects h2 {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: inherit 1rem;
+  }
+
+  .previous-projects article {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 40px;
+  }
+  .previous-projects div {
+    align-content: center;
+  }
+
+  .previous-projects p:first-of-type {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .previous-projects img {
+    width: 100%;
+    max-width: 500px;
+    border: 10px solid black;
+  }
+
+  .previous-projects ul {
+    padding-left: 0px;
+  }
+
+  .previous-projects a {
+    word-break: break-all;
+  }
+
+  .previous-projects li {
+    list-style-type: none;
+  }
+
+  @media screen and (max-width: 600px) {
+    .previous-projects article {
+      display: block;
+    }
+  }
+</style>
