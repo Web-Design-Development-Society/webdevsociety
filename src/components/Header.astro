@@ -1,0 +1,122 @@
+---
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<header>
+  <nav>
+    <img
+      src="/webdevsociety/images/whitelogo.svg"
+      alt="Logo for the WDD Society"
+      width="100px"
+      id="nav-logo"
+    />
+    <button type="button" id="menu-button">Menu</button>
+    <ul class="nav-links">
+      <li><a href={`${baseUrl}/`}>Home</a></li>
+      <li><a href={`${baseUrl}/members`}>Members</a></li>
+      <li><a href={`${baseUrl}/projects`}>Projects</a></li>
+      <li><a href={`${baseUrl}/contact`}>Contact</a></li>
+      <li><a href={`${baseUrl}/gallery`}>Gallery</a></li>
+      <li><a href={`${baseUrl}/about`}>About</a></li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  let currentUrl = window.location.pathname.substring(
+    window.location.pathname.indexOf("/webdevsociety/") + 1,
+  );
+
+  const activeLink = document.querySelector(`a[href="/${currentUrl}"]`);
+  activeLink?.parentElement?.classList.add("active");
+
+  const menuButton = document.getElementById(
+    "menu-button",
+  ) as HTMLButtonElement;
+  menuButton.addEventListener("click", () => {
+    const navLinks = document.querySelector(".nav-links") as HTMLUListElement;
+    navLinks.classList.toggle("open");
+  });
+</script>
+
+<style>
+  .header {
+    padding: 20px;
+  }
+
+  nav {
+    background-color: var(--primary-color);
+    height: calc-size(auto);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    transition: 1s ease;
+    padding: 10px;
+    overflow: hidden;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    align-content: center;
+    font-family: var(--font-family-primary);
+    font-size: 20px;
+    transition: 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  nav li:hover,
+  nav li.active {
+    color: var(--primary-color);
+    background-color: white;
+    border-radius: 5px;
+    transform: scale(1.05);
+  }
+
+  nav li:hover a,
+  nav li.active a {
+    color: var(--primary-color);
+  }
+
+  .nav-links {
+    list-style: none;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+    text-align: center;
+    display: none;
+  }
+
+  .nav-links li {
+    padding: 10px;
+    height: auto;
+  }
+
+  #nav-logo {
+    background-color: var(--primary-color);
+    padding: 10px;
+    border-radius: 0px;
+    /* height: 80px; */
+  }
+
+  .open {
+    display: flex;
+  }
+
+  @media screen and (min-width: 840px) {
+    nav {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+  }
+</style>
