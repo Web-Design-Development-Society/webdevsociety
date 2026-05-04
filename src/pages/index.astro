@@ -1,6 +1,5 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import "../../styles/styles.css";
 
 const baseUrl = import.meta.env.BASE_URL;
 ---
@@ -197,11 +196,54 @@ const baseUrl = import.meta.env.BASE_URL;
     color: white;
   }
 
+  .event-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .event-arrows {
+    border: none;
+    font-size: 50px;
+    color: var(--primary-color);
+    aspect-ratio: 1;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    height: 70px;
+    aspect-ratio: 1/1;
+    transition: 0.3s;
+  }
+
+  .event-arrows:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+  }
+
+  .event-arrows:active {
+    background-color: white;
+    color: #003457;
+  }
+
+  #events {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .evenEvent {
+    background-color: var(--secondary-color);
+  }
+
   @media screen and (min-width: 840px) {
     #cool-cards {
       grid-template-columns: repeat(2, 1fr);
       max-width: 810px;
       margin: 0 auto;
+    }
+    .event-container {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
@@ -210,6 +252,9 @@ const baseUrl = import.meta.env.BASE_URL;
       grid-template-columns: repeat(3, 1fr);
       max-width: 1130px;
       margin: 0 auto;
+    }
+    .event-container {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 </style>
