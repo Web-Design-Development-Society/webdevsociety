@@ -1,56 +1,56 @@
 ---
-import SiteLayout from "../layouts/SiteLayout.astro"
+import SiteLayout from '../layouts/SiteLayout.astro';
 ---
 
 <SiteLayout title="Contact Us">
-    <main>
-      <div id="contact-info">
-        <h1>Come and see!</h1>
-        <ul>
-          <li>Location: STC 231</li>
-          <li>Meetings are every Wednesdays from 5:30-6:30pm</li>
-          <li>
-            No prior experience necessary. We invite any and all level developers to
-            join!
-          </li>
-          <li>
-            Join our online community: <a href="https://discord.gg/zyghpJyKuQ"
-              >Web Dev & Design Official Discord</a
-            >
-          </li>
-        </ul>
-        <p>
-          If you have any questions please reach out to us through the form below!
-        </p>
-      </div>
-      <div id="form-div">
-        <form>
-          <label for="firstName">First Name </label>
-          <input type="text" id="firstName" name="firstName" />
-          <!-- <br> -->
-          <label for="lastName">Last Name </label>
-          <input type="text" id="lastName" name="lastName" />
-          <label for="email">Email Address </label>
-          <input type="email" id="email" name="email" />
-          <label for="message">Enter Message Below</label>
-          <textarea id="message" name="message"></textarea>
-    
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    </main>
+  <main>
+    <div id="contact-info">
+      <h1>Come and see!</h1>
+      <ul>
+        <li>Location: STC 231</li>
+        <li>Meetings are every Wednesdays from 5:30-6:30pm</li>
+        <li>
+          No prior experience necessary. We invite any and all level developers
+          to join!
+        </li>
+        <li>
+          Join our online community: <a href="https://discord.gg/zyghpJyKuQ"
+            >Web Dev & Design Official Discord</a
+          >
+        </li>
+      </ul>
+      <p>
+        If you have any questions please reach out to us through the form below!
+      </p>
+    </div>
+    <div id="form-div">
+      <form>
+        <label for="firstName">First Name </label>
+        <input type="text" id="firstName" name="firstName" />
+        <!-- <br> -->
+        <label for="lastName">Last Name </label>
+        <input type="text" id="lastName" name="lastName" />
+        <label for="email">Email Address </label>
+        <input type="email" id="email" name="email" />
+        <label for="message">Enter Message Below</label>
+        <textarea id="message" name="message"></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </main>
 </SiteLayout>
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
-  @import url("https://use.typekit.net/eyr8egr.css");
+  @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+  @import url('https://use.typekit.net/eyr8egr.css');
 
   :root {
     --primary-color: #006eb6;
     --accent-color: #d4d4d4;
 
-    --font-family-primary: "Ubuntu", sans-serif;
-    --font-family-secondary: "neue-haas-grotesk-text", sans-serif;
+    --font-family-primary: 'Ubuntu', sans-serif;
+    --font-family-secondary: 'neue-haas-grotesk-text', sans-serif;
   }
 
   main {

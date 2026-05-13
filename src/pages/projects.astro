@@ -1,46 +1,46 @@
 ---
-import SiteLayout from "../layouts/SiteLayout.astro";
+import SiteLayout from '../layouts/SiteLayout.astro';
 
 const baseUrl = import.meta.env.BASE_URL;
 
 const previousProjects = [
   {
-    title: "",
+    title: '',
     urls: [],
-    timeframe: "",
-    desc: "",
-    img: "",
-    alt: "",
+    timeframe: '',
+    desc: '',
+    img: '',
+    alt: '',
     contributers: [],
   },
   {
     title: "Brother Shoaf's Site",
-    urls: ["https://amhart02.github.io/musicportfolio/"],
-    timeframe: "September 2024 - April 2025",
-    desc: "Brother Shoaf is a music professor who we helped build a site for, showing off his projects, gallery, and other things",
-    img: "musicportfolio.png",
+    urls: ['https://amhart02.github.io/musicportfolio/'],
+    timeframe: 'September 2024 - April 2025',
+    desc: 'Brother Shoaf is a music professor who we helped build a site for, showing off his projects, gallery, and other things',
+    img: 'musicportfolio.png',
     alt: "Brother Shoaf's music portfolio",
-    contributers: ["Alayna Hart", "Ricky Vang"],
+    contributers: ['Alayna Hart', 'Ricky Vang'],
   },
   {
-    title: "Halloween Websites",
+    title: 'Halloween Websites',
     urls: [
-      "https://alexanderdombroski.github.io/halloween/",
-      "https://gagedorl.github.io/halloweensite/index.html",
+      'https://alexanderdombroski.github.io/halloween/',
+      'https://gagedorl.github.io/halloweensite/index.html',
     ],
-    timeframe: "October 2024",
-    desc: "Halloween Sites were created in preparation for halloween and to show to the high schoolers in Rexburg",
-    img: "halloween-sites.jpg",
-    alt: "showing off halloween sites in high school",
-    contributers: ["Alex Dombroski", "Ellie Talbot", "Amitai Finlayson"],
+    timeframe: 'October 2024',
+    desc: 'Halloween Sites were created in preparation for halloween and to show to the high schoolers in Rexburg',
+    img: 'halloween-sites.jpg',
+    alt: 'showing off halloween sites in high school',
+    contributers: ['Alex Dombroski', 'Ellie Talbot', 'Amitai Finlayson'],
   },
 ];
 
 const nextProjects = [
   {
-    title: "Society Page",
-    desc: "We will finish the society page, and add projects and members as semesters go on.",
-    timeframe: "Sept 2024 - ongoing",
+    title: 'Society Page',
+    desc: 'We will finish the society page, and add projects and members as semesters go on.',
+    timeframe: 'Sept 2024 - ongoing',
   },
 ];
 ---
@@ -94,7 +94,7 @@ const nextProjects = [
 
               {project.timeframe && <p>{project.timeframe}</p>}
               {project.contributers.length > 0 && (
-                <p>{project.contributers.join(", ")}</p>
+                <p>{project.contributers.join(', ')}</p>
               )}
               {project.desc && <p>{project.desc}</p>}
             </div>
