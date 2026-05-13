@@ -1,99 +1,410 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
+
+const githubUsernames = (import.meta.env.GITHUB_MEMBERS ?? "")
+  .split(",")
+  .map((s: string) => s.trim())
+  .filter(Boolean);
+
+interface GitHubUser {
+  login: string;
+  avatar_url: string;
+  html_url: string;
+  name: string | null;
+  bio: string | null;
+  location: string | null;
+  company: string | null;
+  blog: string | null;
+  public_repos: number;
+  followers: number;
+  following: number;
+  created_at: string;
+}
+
+function formatMemberSince(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function normalizeUrl(url: string): string {
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `https://${url}`;
+}
+
+const members: GitHubUser[] = [];
+
+for (const username of githubUsernames) {
+  try {
+    const res = await fetch(`https://api.github.com/users/${username}`, {
+      headers: { Accept: "application/vnd.github.v3+json" },
+    });
+    if (!res.ok) {
+      console.warn(`[github-members] Skipping "${username}": HTTP ${res.status}`);
+      continue;
+    }
+    const data = (await res.json()) as GitHubUser;
+    members.push(data);
+  } catch (err) {
+    console.warn(`[github-members] Skipping "${username}":`, err);
+  }
+}
+
+members.sort(
+  (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+);
 ---
 
-<link type="text/css" href="styles/mainstyles.css" rel="stylesheet" />
-<SiteLayout title="WDD Society Members">
-  <main>
-    <h1>Profile Pages</h1>
-    <p><i><b>NOTE: This page is still under construction</b></i></p>
+<SiteLayout title="Members — Web Dev Society">
+  <main class="members-page">
+    <header class="page-header">
+      <h1>Our Members</h1>
+      <p>Meet the people behind the Web Design &amp; Development Society.</p>
+    </header>
 
-    <div class="presidency">
-      <div class="pres">
-        <h2>President:</h2>
-        <img src="#" alt="Picture of Alex Dombroski" />
-        <a href="alexdombroski.html">Alex Dombroski</a>
-      </div>
+    {members.length === 0 && (
+      <p class="empty-state">
+        No members to display. Add GitHub usernames to{" "}
+        <code>src/data/github-members.ts</code> and rebuild.
+      </p>
+    )}
 
-      <div class="vp">
-        <h2>Vice President:</h2>
-        <img src="#" alt="Picture of Gage D'Orlando" />
-        <a href="gagedorlando.html">Gage D'Orlando</a>
-      </div>
+    <div class="card-grid">
+      {members.map((member) => (
+        <article class="member-card">
+          <div class="card-top">
+            <img
+              class="avatar"
+              src={`${member.avatar_url}&s=200`}
+              alt={`${member.login}'s GitHub avatar`}
+              width="96"
+              height="96"
+            />
+            <div class="identity">
+              {member.name && <span class="display-name">{member.name}</span>}
+              <span class="username">@{member.login}</span>
+            </div>
+          </div>
 
-      <div class="marketing">
-        <h2>Marketing:</h2>
-        <img src="#" alt="Picture of Alayna Hart" />
-        <a href="alaynahart.html">Alayna Hart</a>
-      </div>
+          {member.bio && <p class="bio">{member.bio}</p>}
 
-      <div class="events">
-        <h2>Events:</h2>
-        <img src="#" alt="Picture of Luke Campbell" />
-        <a href="luke.html">Luke Campbell</a>
-      </div>
+          <ul class="meta-list">
+            {member.location && (
+              <li class="meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M8 1.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9ZM2 6a6 6 0 1 1 10.174 4.31c-.203.196-.43.402-.661.61-.971.883-2.484 1.868-4.514 1.868-2.03 0-3.543-.985-4.514-1.867a9.624 9.624 0 0 1-.66-.61A5.973 5.973 0 0 1 2 6Zm6 3.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clip-rule="evenodd" />
+                </svg>
+                {member.location}
+              </li>
+            )}
+            {member.company && (
+              <li class="meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M3 1.5A1.5 1.5 0 0 1 4.5 0h7A1.5 1.5 0 0 1 13 1.5v13A1.5 1.5 0 0 1 11.5 16H10v-1.5a2 2 0 0 0-4 0V16H4.5A1.5 1.5 0 0 1 3 14.5v-13Zm3 0a.5.5 0 0 0 0 1h.5a.5.5 0 0 0 0-1H6Zm.5 3a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h.5a.5.5 0 0 0 .5-.5ZM6 5.5a.5.5 0 0 0-.5.5v.5a.5.5 0 0 0 1 0V6a.5.5 0 0 0-.5-.5ZM9.5 1a.5.5 0 0 0 0 1H10a.5.5 0 0 0 0-1h-.5ZM9 3.5a.5.5 0 0 0 .5.5H10a.5.5 0 0 0 0-1h-.5a.5.5 0 0 0-.5.5ZM9.5 5.5a.5.5 0 0 0 0 1H10a.5.5 0 0 0 0-1h-.5Z" clip-rule="evenodd" />
+                </svg>
+                {member.company.replace(/^@/, "")}
+              </li>
+            )}
+            {member.blog && (
+              <li class="meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+                </svg>
+                <a
+                  href={normalizeUrl(member.blog)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="blog-link"
+                >
+                  {member.blog.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                </a>
+              </li>
+            )}
+          </ul>
 
-      <div class="advisor">
-        <h2>Faculty Advisor:</h2>
-        <img src="#" alt="Picture of Brother Alvey" />
-        <a href="#">Brother Alvey</a>
-      </div>
-    </div>
+          <div class="stats-row">
+            <span class="stat">
+              <strong>{member.public_repos}</strong>
+              <span class="stat-label">repos</span>
+            </span>
+            <span class="stat-divider" aria-hidden="true" />
+            <span class="stat">
+              <strong>{member.followers}</strong>
+              <span class="stat-label">followers</span>
+            </span>
+            <span class="stat-divider" aria-hidden="true" />
+            <span class="stat">
+              <strong>{member.following}</strong>
+              <span class="stat-label">following</span>
+            </span>
+          </div>
 
-    <div class="card">
-      <a href="alaynahart.html">Alayna Hart</a>
-      <a href="gagedorlando.html">Gage D'Orlando</a>
-      <a href="luke.html">Luke Campbell</a>
-      <a href="peterindex.html">Peter Walter</a>
-      <a href="rogergalan.html">Roger Galan</a>
-      <a href="sethboss.html">Seth Boss</a>
-      <a href="rickyvang.html">Ricky Vang</a>
-      <a href="alexdombroski.html">Alex Dombroski</a>
-      <a href="rylandbangerter.html">Ryland Bangerter</a>
+          <div class="card-footer">
+            <span class="joined">Member since {formatMemberSince(member.created_at)}</span>
+            <a
+              href={member.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="github-link"
+            >
+              View on GitHub
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
     </div>
   </main>
 </SiteLayout>
 
 <style>
-  .card a {
-    display: block;
-    margin: 10px;
-    text-decoration: none;
+  .members-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 4rem;
   }
 
-  body {
+  .page-header {
     text-align: center;
+    margin-bottom: 2.5rem;
   }
 
-  .card {
-    display: block;
-    width: calc(80% - 15px);
-    height: 600px;
-    margin: 30px auto;
-    border-radius: 15px;
-    padding: 15px;
-    text-align: left;
+  .page-header h1 {
+    font-family: var(--font-family-primary);
+    font-size: 2.25rem;
+    color: var(--primary-color);
+    margin: 0 0 0.5rem;
   }
 
-  .presidency {
-    display: block;
-    width: calc(80% - 15px);
-    height: 600px;
-    margin: 30px auto;
-    border-radius: 15px;
-    padding: 15px;
+  .page-header p {
+    font-family: var(--font-family-secondary);
+    color: #555;
+    font-size: 1.05rem;
+    margin: 0;
   }
 
-  .preview {
-    width: 600px;
-    height: 400px;
-    -webkit-transform: scale(0.25);
-    -ms-transform: scale(0.5);
-    transform: scale(0.5);
-    -webkit-transform-origin: 0 0;
-    -ms-transform-origin: 0 0;
-    transform-origin: 0 0;
-    border: 4px solid blue;
-    margin: 0 0 -200px 0;
+  .empty-state {
+    text-align: center;
+    color: #666;
+    font-family: var(--font-family-secondary);
+    padding: 3rem 1rem;
+  }
+
+  .empty-state code {
+    font-size: 0.9em;
+    background: #f0f0f0;
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+
+  /* ── Grid ─────────────────────────────────────────────── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .card-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ── Card ─────────────────────────────────────────────── */
+  .member-card {
+    background: #fff;
+    border: 1px solid #e4e8ec;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .member-card:hover {
+    box-shadow: 0 6px 24px rgba(0, 110, 182, 0.12);
+    transform: translateY(-2px);
+  }
+
+  /* ── Card top row ─────────────────────────────────────── */
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--secondary-color);
+    flex-shrink: 0;
+  }
+
+  .identity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .display-name {
+    font-family: var(--font-family-primary);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #1a1a2e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .username {
+    font-family: var(--font-family-secondary);
+    font-size: 0.875rem;
+    color: var(--primary-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Bio ──────────────────────────────────────────────── */
+  .bio {
+    font-family: var(--font-family-secondary);
+    font-size: 0.9rem;
+    color: #444;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ── Meta list ────────────────────────────────────────── */
+  .meta-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-family-secondary);
+    font-size: 0.85rem;
+    color: #555;
+  }
+
+  .meta-item svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--primary-color);
+  }
+
+  .blog-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .blog-link:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Stats ────────────────────────────────────────────── */
+  .stats-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 0.25rem;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+  }
+
+  .stat strong {
+    font-family: var(--font-family-primary);
+    font-size: 1rem;
+    color: #1a1a2e;
+  }
+
+  .stat-label {
+    font-family: var(--font-family-secondary);
+    font-size: 0.72rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 28px;
+    background: #e4e8ec;
+    flex-shrink: 0;
+  }
+
+  /* ── Footer ───────────────────────────────────────────── */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 0.85rem;
+  }
+
+  .joined {
+    font-family: var(--font-family-secondary);
+    font-size: 0.8rem;
+    color: #888;
+  }
+
+  .github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-family-primary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #fff;
+    background: var(--primary-color);
+    text-decoration: none;
+    padding: 0.35rem 0.85rem;
+    border-radius: 6px;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .github-link svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .github-link:hover {
+    background: #005a96;
   }
 </style>

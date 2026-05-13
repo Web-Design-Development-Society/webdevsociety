@@ -42,6 +42,8 @@ jobs:
         run: npm install
       - name: Run Build
         run: npm run build
+        env:
+          GITHUB_MEMBERS: ${{ secrets.GITHUB_MEMBERS }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
