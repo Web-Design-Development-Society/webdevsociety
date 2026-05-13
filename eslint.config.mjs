@@ -12,30 +12,13 @@ export default defineConfig([
     files: ['**/*.{js,mjs,cjs}'],
     plugins: { js },
     extends: ['js/recommended'],
-  },
-  {
-    files: ['**/*.{js,mjs,cjs}'],
     languageOptions: { globals: globals.browser },
-  },
-  {
     rules: {
       'no-unused-vars': 'warn',
       'no-undef': 'warn',
       'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
       eqeqeq: 'warn',
       semi: 'warn',
-    },
-  },
-  {
-    files: ['packages/backend/**/*.{ts,mts,js,mjs,cjs}', '.husky/*.ts'],
-    languageOptions: {
-      globals: globals.node,
-    },
-  },
-  {
-    files: ['packages/frontend/**/*.{ts,mts,js,mjs,cjs}'],
-    languageOptions: {
-      globals: globals.browser,
     },
   },
   {
@@ -52,7 +35,7 @@ export default defineConfig([
       semi: 'warn',
       '@typescript-eslint/consistent-type-imports': 'warn',
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'warn', // Use correct rule
+      '@typescript-eslint/no-unused-vars': 'warn',
     },
   },
   ...astro.configs.recommended,
