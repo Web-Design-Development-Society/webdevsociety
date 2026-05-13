@@ -1,5 +1,5 @@
 ---
-import SiteLayout from "../layouts/SiteLayout.astro";
+import SiteLayout from '../layouts/SiteLayout.astro';
 
 const baseUrl = import.meta.env.BASE_URL;
 ---
@@ -47,13 +47,15 @@ const baseUrl = import.meta.env.BASE_URL;
 </SiteLayout>
 
 <script is:inline>
+  /* eslint-disable eqeqeq */
+
   const events = [
     {
-      title: "Society Meeting",
-      date: "3/26/2025",
-      time: "5:30pm",
-      location: "STC 231",
-      description: "Discussing upcoming events and projects",
+      title: 'Society Meeting',
+      date: '3/26/2025',
+      time: '5:30pm',
+      location: 'STC 231',
+      description: 'Discussing upcoming events and projects',
     },
   ];
 
@@ -72,7 +74,7 @@ const baseUrl = import.meta.env.BASE_URL;
       eventSize = 4;
     }
 
-    window.addEventListener("resize", function () {
+    window.addEventListener('resize', function () {
       windowWidth = window.innerWidth;
       if (windowWidth < 840) {
         eventSize = 1;
@@ -85,18 +87,18 @@ const baseUrl = import.meta.env.BASE_URL;
       checkArrowAvailability();
     });
 
-    const eventContainer = document.querySelector(".event-container");
+    const eventContainer = document.querySelector('.event-container');
     let eventIndex = 0;
     const updateEvents = () => {
-      eventContainer.innerHTML = "";
+      eventContainer.innerHTML = '';
 
       if (eventIndex >= 0 && eventIndex + eventSize < events.length) {
         events.slice(eventIndex, eventIndex + eventSize).forEach((event) => {
-          const eventElement = document.createElement("div");
-          eventElement.classList.add("event");
+          const eventElement = document.createElement('div');
+          eventElement.classList.add('event');
           event.id % 2 == 0
-            ? eventElement.classList.add("evenEvent")
-            : eventElement.classList.add("oddEvent");
+            ? eventElement.classList.add('evenEvent')
+            : eventElement.classList.add('oddEvent');
           eventElement.innerHTML = `
                 <h3>${event.title}</h3>
                 <p>Date: ${event.date}</p>
@@ -104,16 +106,16 @@ const baseUrl = import.meta.env.BASE_URL;
                 <p>Location: ${event.location}</p>
                 <p>${event.description}</p>
             `;
-          eventElement.classList.add("card");
+          eventElement.classList.add('card');
           eventContainer.appendChild(eventElement);
         });
       } else if (eventIndex >= 0 && eventIndex + eventSize >= events.length) {
         events.slice(eventIndex, events.length).forEach((event) => {
-          const eventElement = document.createElement("div");
-          eventElement.classList.add("card");
+          const eventElement = document.createElement('div');
+          eventElement.classList.add('card');
           event.id % 2 == 0
-            ? eventElement.classList.add("evenEvent")
-            : eventElement.classList.add("oddEvent");
+            ? eventElement.classList.add('evenEvent')
+            : eventElement.classList.add('oddEvent');
           eventElement.innerHTML = `
                 <h3>${event.title}</h3>
                 <p>Date: ${event.date}</p>
@@ -126,23 +128,23 @@ const baseUrl = import.meta.env.BASE_URL;
       }
     };
 
-    const leftArrow = document.querySelector("#left-arrow");
-    const rightArrow = document.querySelector("#right-arrow");
+    const leftArrow = document.querySelector('#left-arrow');
+    const rightArrow = document.querySelector('#right-arrow');
 
     const checkArrowAvailability = () => {
       if (eventIndex == 0) {
-        leftArrow.classList.add("unavailable");
+        leftArrow.classList.add('unavailable');
       } else {
-        leftArrow.classList.remove("unavailable");
+        leftArrow.classList.remove('unavailable');
       }
       if (eventIndex == events.length - eventSize) {
-        rightArrow.classList.add("unavailable");
+        rightArrow.classList.add('unavailable');
       } else {
-        rightArrow.classList.remove("unavailable");
+        rightArrow.classList.remove('unavailable');
       }
     };
 
-    leftArrow.addEventListener("click", function () {
+    leftArrow.addEventListener('click', function () {
       if (eventIndex != 0) {
         eventIndex--;
       }
@@ -150,7 +152,7 @@ const baseUrl = import.meta.env.BASE_URL;
       checkArrowAvailability();
     });
 
-    rightArrow.addEventListener("click", function () {
+    rightArrow.addEventListener('click', function () {
       if (eventIndex != events.length - eventSize) {
         eventIndex++;
       }
