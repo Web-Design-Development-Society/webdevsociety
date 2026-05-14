@@ -1,5 +1,5 @@
 ---
-import pictures from "./pictures.json";
+import pictures from './pictures.json';
 
 const baseUrl = import.meta.env.BASE_URL;
 ---
@@ -11,7 +11,7 @@ const baseUrl = import.meta.env.BASE_URL;
         <img
           src={`${baseUrl}/images/gallery/${imageURL}`}
           alt={name}
-          data-url={imageURL}
+          data-url={`${baseUrl}/images/gallery/${imageURL}`}
         />
         <p>{name}</p>
       </div>
@@ -20,25 +20,25 @@ const baseUrl = import.meta.env.BASE_URL;
 </div>
 
 <script>
-  document.getElementById("photo-cards")?.addEventListener("click", (event) => {
+  document.getElementById('photo-cards')?.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
-    if (target.tagName === "IMG") {
+    if (target.tagName === 'IMG') {
       expandImage(target.dataset.url as string);
     }
   });
 
   function expandImage(src: string) {
     // Create overlay
-    const overlay = document.createElement("div");
-    overlay.className = "expanded-overlay";
+    const overlay = document.createElement('div');
+    overlay.className = 'expanded-overlay';
 
     // Create image element
-    const img = document.createElement("img");
+    const img = document.createElement('img');
     img.src = src;
-    img.className = "expanded-img";
+    img.className = 'expanded-img';
 
     // Close overlay when clicked
-    overlay.addEventListener("click", () => {
+    overlay.addEventListener('click', () => {
       document.body.removeChild(overlay);
     });
 
@@ -53,6 +53,7 @@ const baseUrl = import.meta.env.BASE_URL;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    gap: 10px;
   }
 
   #photo-cards p {
@@ -72,6 +73,10 @@ const baseUrl = import.meta.env.BASE_URL;
     cursor: pointer;
   }
 
+  .photo-card img:hover {
+    transform: scale(1.05);
+  }
+
   .photo-card img:active {
     transform: scale(0.9) rotate(5deg);
     border-radius: 20px 50px;
@@ -81,7 +86,7 @@ const baseUrl = import.meta.env.BASE_URL;
     color: white;
   }
 
-  .expanded-overlay {
+  :global(.expanded-overlay) {
     position: fixed;
     top: 0;
     left: 0;
@@ -94,7 +99,7 @@ const baseUrl = import.meta.env.BASE_URL;
     z-index: 1000;
   }
 
-  .expanded-img {
+  :global(.expanded-img) {
     max-width: 90%;
     max-height: 90%;
     border-radius: 20px;
@@ -103,8 +108,8 @@ const baseUrl = import.meta.env.BASE_URL;
     border: 0.5em #006eb6 solid;
   }
 
-  .expanded-overlay::after {
-    content: "✖";
+  :global(.expanded-overlay::after) {
+    content: '✖';
     position: absolute;
     top: 20px;
     right: 30px;
