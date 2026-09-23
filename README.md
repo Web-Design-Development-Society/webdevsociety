@@ -1,43 +1,71 @@
-# Astro Starter Kit: Minimal
+# BYU-I Web Design & Development Society Website
 
-```sh
-npm create astro@latest -- --template minimal
-```
+The following directory layout is intended to cleanly separate source code to make things easy to understand and work with. The goal is for every member to be able to learn from the code to help improve their site, as well as anyone any level of experience be able to contribute content, update, or modify the pages.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Site Layout
 
 ```text
 /
 ├── public/
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── assets/
+│   │   ├── data/
+│   │   ├── icons/
+│   │   └── images/
+│   ├── components/
+│   │   ├── members/
+│   │   ├── navigation/
+│   │   └── projects/
+│   ├── content/
+│   │   ├── projects/
+│   │   └── events.json
+│   ├── layouts/
+│   ├── pages/
+│   │   ├── events.astro
+│   │   ├── members.astro
+│   │   ├── index.astro
+│   │   └── projects.astro
+│   ├── scripts/
+│   ├── styles/
+│   │   └── global.css
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+`src/assets` contains all data used and organized into reasonable subdirectories. `data` contains the lists of members and the presidency, as well as variables used throughout the site. `icons` contains SVG elements used on pages. `images` contains image files used throughout the site, specifically the banner images and project images. Further organization may be used when more projects are made.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+`src/components/` contains any Astro/React/Vue/Svelte/Preact components, organized by the page that uses them.
 
-Any static assets, like images, can be placed in the `public/` directory.
+`src/content/` contains information used by the events and projects pages to consolidate information used by specific pages, and to separate the data from the code used to display it.
 
-## 🧞 Commands
+`src/layouts/` contains layouts used throughout the site, for example, a general layout for most of the pages throughout the site.
 
-All commands are run from the root of the project, from a terminal:
+`src/pages/` contains each page on the site.
+
+`src/scripts/` contains TypeScript/JavaScript files used for interactive content.
+
+`src/styles/` contains all styling for different pages, such as global styling, as well as styling unique to individual pages or components. Currently, this site uses Tailwind to style, but it's just as flexible for using vanilla CSS.
+
+## Useful Console Commands for Astro
+
+All commands are run at the root, using a terminal:
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm install`             | Install dependencies                             |
+| `npm run dev`             | Starts a local dev server at `localhost:4321`    |
+| `npm run build`           | Build the production site to `./dist/`           |
+| `npm run preview`         | Preview the build locally, before deploying      |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+## Useful Resources
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- [Astro Documentation](https://docs.astro.build)
+- [Tailwind CSS Documentation](https://tailwindcss.com/)
+
+## Future Goals
+
+- Provide inline documentation throughout pages and components to explain actions.
+- Ensure that variable, component, and functions used are descriptive of the data they contain or what they do.
+- Migrate Tailwind styling to plain CSS now that the majority of the styling is outlined.
+- Outline semester schedule on `/events#semester-schedule` (`src/content/events.json`)

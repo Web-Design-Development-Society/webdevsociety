@@ -1,0 +1,185 @@
+---
+import '../styles/global.css';
+import BasicLayout from '../layouts/sitelayout.astro';
+import heroImage from '../assets/images/members.jpeg';
+import PresidencyMember from '../components/members/presidencymember.astro';
+import presidency from '../assets/data/presidency.json';
+import { Octokit } from 'octokit';
+import MemberCard from '../components/members/membercard.astro';
+import HeroBanner from '../components/navigation/HeroBanner.astro';
+import * as fs from 'node:fs';
+
+const token = import.meta.env.GITHUB_PAT;
+
+let listOfMemberInformation;
+
+function loadCachedMembers() {
+  try {
+    return JSON.parse(fs.readFileSync('./src/assets/data/members.json', 'utf-8'));
+  } catch {
+    return [];
+  }
+}
+
+if (!token) {
+  console.warn(
+    'Missing organization token environment variable. Loading from members.json instead...'
+  );
+  listOfMemberInformation = loadCachedMembers();
+} else {
+  console.warn('Organization token found. Building members.json...');
+
+  try {
+    const octokit = new Octokit({ auth: token });
+
+    const data = await octokit.paginate(octokit.rest.orgs.listMembers, {
+      org: 'Web-Design-Development-Society',
+      per_page: 100,
+    });
+
+    const refreshedMembers = [];
+
+    for (const member of data) {
+      const user = await octokit.rest.users.getByUsername({
+        username: member.login,
+      });
+
+      refreshedMembers.push({
+        login: member.login,
+        name: user.data.name,
+        avatar_url: user.data.avatar_url,
+        site: user.data.blog,
+      });
+    }
+
+    // Only write once the full refresh has succeeded.
+    const tempPath = './src/assets/data/members.json.tmp';
+    fs.writeFileSync(tempPath, JSON.stringify(refreshedMembers, null, 2), 'utf-8');
+    fs.renameSync(tempPath, './src/assets/data/members.json');
+
+    listOfMemberInformation = refreshedMembers;
+  } catch (error: any) {
+    console.error(`Unable to refresh members data: ${error.message}`);
+    console.warn('Keeping the existing cached members list instead of overwriting it.');
+    listOfMemberInformation = loadCachedMembers();
+  }
+}
+---
+
+<BasicLayout
+  title="BYUI WDD Society - Members"
+  description="Get to know the members of the society and society leadership. "
+  bannerImage={heroImage}
+>
+  <HeroBanner heroImage={heroImage}>
+    <h1 class="text-6xl font-bold">Members</h1>
+    <span class="w-2/3 text-center md:w-1/2">
+      Meet the members of the BYU-Idaho Web Design & Development Society.
+    </span>
+  </HeroBanner>
+
+  <section id="presidency" class="flex flex-col items-center gap-3 py-5 md:gap-5">
+    <h2 class="text-4xl font-bold">Presidency</h2>
+    <ul
+      id="presidency-list"
+      class="mx-auto flex w-9/10 flex-col justify-center gap-3 md:flex-row md:flex-wrap md:gap-6"
+    >
+      <!-- Use the list of the presidency names, positions, and usernames to retrieve information and plug it into the template/component -->
+      {
+        presidency.map((member) => (
+          <li>
+            <PresidencyMember presidencyMember={member} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section id="members" class="flex flex-col items-center gap-3 py-5 md:gap-5">
+    <h2 class="text-4xl font-bold">Membership</h2>
+
+    <!-- Search by github username or member first name or last name -->
+    <div id="search" class="flex w-2/3">
+      <label for="search-members" class="sr-only"> Search Members: </label>
+      <input
+        type="text"
+        id="search-members"
+        name="search-members"
+        placeholder="Search by name or GitHub username"
+        class="w-full rounded-l-full border border-gray-300 px-3 py-2"
+      />
+      <button
+        type="button"
+        id="search-button"
+        class="cursor-pointer rounded-r-full bg-blue-950 px-3 py-2 text-white hover:bg-gray-800"
+        aria-label="Search members"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#ffffff"
+        >
+          <path
+            d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- List out all members in the area below -->
+    <div id="list-of-members" class="w-9/10 md:w-2/3">
+      <ul class="mx-auto my-5 flex flex-col gap-3 md:w-9/10">
+        <!-- Use the data from members.json to populate the list of members -->
+        {
+          listOfMemberInformation.map(
+            (member: { login: string; name: string | null; avatar_url: string; site: string }) => (
+              <li data-member={`${member.login} ${member.name ?? ''}`.toLowerCase()}>
+                <MemberCard member={member} />
+              </li>
+            )
+          )
+        }
+      </ul>
+    </div>
+
+    <script>
+      const searchField = document.querySelector('#search-members') as HTMLInputElement;
+      const searchButton = document.querySelector('#search-button') as HTMLButtonElement;
+      const memberItems = [...document.querySelectorAll('#list-of-members li[data-member]')];
+
+      function matchesSearch(searchableText: string, query: string): boolean {
+        const trimmedQuery = query.trim();
+
+        if (!trimmedQuery) return true;
+
+        const tokens = trimmedQuery.toLowerCase().split(/\s+/).filter(Boolean);
+
+        return tokens.every((token) => searchableText.includes(token));
+      }
+
+      function filterMembers() {
+        const query = searchField.value;
+
+        memberItems.forEach((item) => {
+          const searchableText = (item.getAttribute('data-member') ?? '').toLowerCase();
+          const shouldShow = matchesSearch(searchableText, query);
+
+          item.classList.toggle('hidden', !shouldShow);
+        });
+      }
+
+      searchButton.addEventListener('click', () => {
+        filterMembers();
+      });
+
+      searchField.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          filterMembers();
+        }
+      });
+    </script>
+  </section>
+</BasicLayout>

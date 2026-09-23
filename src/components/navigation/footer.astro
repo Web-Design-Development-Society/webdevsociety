@@ -1,0 +1,18 @@
+---
+import '../../styles/global.css';
+import variables from '../../assets/data/variables.json';
+const year = new Date().getFullYear();
+---
+
+<!-- gap-3 pt-5 pb-10 -->
+<footer class="flex flex-col items-center gap-2 bg-blue-950 py-5 text-white">
+  <span>&copy; {year} BYU-I Web Dev Society</span>
+  <div class="flex flex-col items-center md:flex-row md:divide-x md:divide-white">
+    <!-- Join us {time} {day} at {room} -->
+    <span class="md:pr-1">{variables.room}</span>
+    <span class="pl-1">
+      {variables.day}
+      {variables.time}
+    </span>
+  </div>
+</footer>

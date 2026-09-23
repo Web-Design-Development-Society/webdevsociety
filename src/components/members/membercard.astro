@@ -1,0 +1,50 @@
+---
+type Member = {
+  login: string;
+  name: string | null;
+  avatar_url: string;
+  site: string;
+};
+
+export interface Props {
+  member: Member;
+}
+
+const { member } = Astro.props;
+
+let link;
+
+if (member.site && !member.site.includes('@')) {
+  if (/^https?:\/\//i.test(member.site)) {
+    link = `${member.site}`;
+  } else {
+    link = `https://${member.site}`;
+  }
+} else {
+  link = `https://github.com/${member.login}`;
+}
+---
+
+<a
+  href={link}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="flex gap-3 rounded-xl bg-white shadow-md transition-all duration-300 hover:my-6 hover:scale-110 hover:bg-gray-50 hover:shadow-lg md:p-5 dark:bg-gray-900 dark:hover:bg-gray-800"
+>
+  <img
+    src={member.avatar_url}
+    alt={member.name || member.login}
+    class="max-h-35 min-h-24 w-24 rounded-l-xl object-cover md:rounded-full"
+  />
+  <div class="flex grow flex-col items-center justify-between pb-3 md:flex-row">
+    <div class="flex flex-col items-center md:items-start">
+      <h3 class="text-center text-2xl font-bold">{member.name || member.login}</h3>
+      <span class="text-gray-500">@{member.login}</span>
+    </div>
+    <span
+      class="min-w-12/50 text-center hover:bg-gray-800 md:rounded-full md:bg-blue-950 md:px-3 md:py-2 md:text-white dark:hover:bg-gray-700"
+    >
+      {member.site != '' ? 'View Personal Site' : 'View GitHub Profile'}
+    </span>
+  </div>
+</a>

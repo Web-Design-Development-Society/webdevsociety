@@ -1,0 +1,118 @@
+---
+import '../styles/global.css';
+import BasicLayout from '../layouts/sitelayout.astro';
+import heroImage from '../assets/images/members.jpeg';
+import variables from '../assets/data/variables.json';
+import Event from '../components/events/event.astro';
+import Schedule from '../content/events.json';
+import HeroBanner from '../components/navigation/HeroBanner.astro';
+---
+
+<BasicLayout
+  title="BYUI WDD Society - Events"
+  description="The BYU-I WDD Society usually meets at 5:30 in STC Room 231. Learn more about upcoming society events and see our schedule for the upcoming semester."
+  bannerImage={heroImage}
+>
+  <HeroBanner heroImage={heroImage} imagePosition="bg-top">
+    <h1 class="text-6xl font-bold">Events</h1>
+    <span class="w-3/4 text-center md:w-2/3">
+      Come participate in events and engage and learn with fellow students.
+    </span>
+  </HeroBanner>
+
+  <section id="time" class="bg-blue-950 py-3 text-white">
+    <div class="mx-auto flex w-fit flex-col items-center gap-3 md:flex-row">
+      <span class="text-center font-bold">
+        Join us in the {variables.room}, {variables.day} from {variables.time}
+      </span>
+    </div>
+  </section>
+
+  <!-- Events & Meetings -->
+  <div class="mx-auto w-8/10 py-10 md:w-7/10">
+    <section class="mb-10">
+      <div class="flex flex-col items-center md:items-start">
+        <h2 class="text-center text-4xl font-bold md:text-left" id="activities">
+          Activities & Workshops
+        </h2>
+        <span class="font-light text-gray-500">Fun events & learning experiences</span>
+      </div>
+      <ul id="activity-events" class="my-5 flex flex-col gap-2 pl-5 text-center md:items-center">
+        <!-- Computing Society time & Web Dev Society time -->
+        <li class="font-bold">Computing Society, Wednesday 5:00 PM @ STC 398</li>
+        <li class="font-bold">Web Dev Society, Wednesday 5:30 - 6:30 PM @ STC 231</li>
+        <li class="text-justify md:text-center">
+          Regular workshops intended to help students develop skills and work towards building a
+          portfolio.
+        </li>
+        <li class="text-justify md:text-center">
+          Presentations from fellow students about technologies they find interesting or have
+          recently learned about.
+        </li>
+        <li class="mt-2 font-bold">See the semester schedule for more!</li>
+      </ul>
+    </section>
+
+    <section class="mb-10">
+      <div class="flex flex-col items-center md:items-start">
+        <h2 class="text-center text-4xl font-bold md:text-left" id="semester-schedule">
+          <a href="#semester-schedule" class="hover:underline"> Semester Schedule </a>
+        </h2>
+        <span class="font-light text-gray-500">Know when & what's going on</span>
+      </div>
+      <ul id="upcoming-events" class="mx-auto my-5 md:w-9/10">
+        <!-- Upcoming events  -->
+
+        <!-- Using events.json to populate this section -->
+        {
+          Schedule.map((event, index) => (
+            <li id={String(index + 1)}>
+              <Event event={event} id={index + 1} />
+            </li>
+          ))
+        }
+      </ul>
+      <script>
+        // Gather a list of all events for the semester for styling
+        const listItems = document.querySelectorAll('#upcoming-events li > div');
+
+        // For each event, identify the date and style according to upcoming (Blue & Bold), future (Green), and past (Yellow)
+        for (let i = 0; i < listItems.length; i++) {
+          const div = listItems[i];
+
+          // Identify the event's date
+          const date = div.querySelector('[data-date]')?.getAttribute('data-date');
+          if (date) {
+            const today = new Date();
+            const eventDate = new Date(date);
+            const futureDate = new Date(today);
+            const pastDate = new Date(today);
+            futureDate.setDate(today.getDate() + 6);
+            pastDate.setDate(today.getDate() - 1);
+
+            // Future Event
+            if (eventDate > today) {
+              div.classList.add('border-green-600');
+            }
+
+            // Past Event
+            else if (eventDate < today) {
+              div.classList.add('border-yellow-400');
+            }
+
+            // If the event is within six days from today or is today (Resulting in a week's worth of upcoming events)
+            if (eventDate < futureDate && eventDate > pastDate) {
+              // Remove styling related to either past or future
+              div.classList.remove('border-yellow-400');
+              div.classList.remove('border-green-600');
+
+              // Style for upcoming events (Today or in a week from today)
+              div.classList.add('border-blue-600');
+              div.classList.add('font-bold');
+            }
+          }
+        }
+      </script>
+    </section>
+  </div>
+</BasicLayout>

@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Run the UnderGrad",
+    "url": "https://runtheundergrad.org",
+    "img": "/src/assets/images/undergrad-site.jpeg",
+    "alt": "Screenshot of the Undergrad running website",
+    "desc": "A professional website made for a local running company, featuring pages for events, photos from races, and frequently asked questions. Members of all levels of experience worked with HTML, CSS, and JavaScript.",
+    "startDate": "September 2025",
+    "endDate": "Ongoing",
+    "contributors": []
+  },
+  {
+    "title": "Society Site",
+    "url": "https://web-design-development-society.github.io/webdevsociety",
+    "img": "/src/assets/images/society-site.jpeg",
+    "alt": "Screenshot of the home page of this site",
+    "desc": "A modular Astro-powered website using GitHub API to list members, as well as events and current and past projects.",
+    "startDate": "September 2024",
+    "endDate": "Ongoing",
+    "contributors": []
+  }
+]

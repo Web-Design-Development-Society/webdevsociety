@@ -1,0 +1,54 @@
+---
+type PresidencyMember = {
+  title: string;
+  login: string;
+};
+
+export interface Props {
+  presidencyMember: PresidencyMember;
+}
+
+const { presidencyMember } = Astro.props;
+
+import { Octokit } from 'octokit';
+
+const octokit = new Octokit();
+
+let profileData = null;
+
+try {
+  const { data } = await octokit.rest.users.getByUsername({
+    username: presidencyMember.login,
+  });
+  profileData = data;
+} catch (error: any) {
+  console.error(`Error getting profile data for ${presidencyMember.login}: ${error.message}`);
+}
+
+let link;
+
+if (/^https?:\/\//i.test(profileData.blog)) {
+  if (profileData?.blog?.includes('https://')) {
+    link = `${profileData?.blog}`;
+  } else {
+    link = `https://${profileData?.blog}`;
+  }
+} else {
+  link = `https://github.com/${presidencyMember.login}`;
+}
+---
+
+<a
+  href={link}
+  class="mx-auto flex rounded-xl bg-white shadow-md transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-lg md:min-w-55 md:flex-col md:items-center md:p-5 dark:bg-gray-900"
+>
+  <img
+    src={profileData?.avatar_url}
+    alt={profileData?.name}
+    class="h-24 w-24 rounded-l-xl object-cover md:rounded-full"
+  />
+  <div class="flex grow flex-col items-center justify-center">
+    <h3 class="text-2xl font-bold">{presidencyMember.title}</h3>
+    <span class="text-sm text-gray-400">{profileData?.name ?? profileData?.login}</span>
+  </div>
+</a>

@@ -1,0 +1,80 @@
+---
+type Event = {
+  date: string;
+  name: string;
+  time: string | null;
+  description: string | null;
+};
+
+export interface Props {
+  event: Event;
+  id: number;
+}
+
+const { event, id } = Astro.props;
+
+// Determining which month abbreviation to use
+
+// Creating a list for reference and use
+const listOfMonths = [
+  'JAN',
+  'FEB',
+  'MAR',
+  'APR',
+  'MAY',
+  'JUN',
+  'JUL',
+  'AUG',
+  'SEP',
+  'OCT',
+  'NOV',
+  'DEC',
+];
+// Parse the month number and the day from the event date and store in variables named for each
+const [monthNum, day] = event.date.split('-');
+// Identify the month related to the number
+const month = listOfMonths[parseInt(monthNum) - 1];
+
+// Alternate themes for the date of the event
+const alternateDate: Record<string, string> = {
+  default: 'bg-gray-300 dark:bg-gray-800',
+  alternate: 'bg-gray-200 dark:bg-gray-600',
+};
+
+// Alternate themes for the section containing the event description and time
+const alternateBody: Record<string, string> = {
+  default: 'bg-gray-200 dark:bg-gray-600',
+  alternate: 'bg-gray-300 dark:bg-gray-800',
+};
+
+let bodyStyling;
+let dateStyling;
+
+// Determine if the event is even or odd
+if (id % 2 == 0) {
+  bodyStyling = alternateBody.default;
+  dateStyling = alternateDate.default;
+} else {
+  bodyStyling = alternateBody.alternate;
+  dateStyling = alternateDate.alternate;
+}
+---
+
+<div class="flex border-l-4">
+  <div
+    class={`flex flex-col items-center justify-center md:aspect-square md:border-box grow px-5 md:px-0 md:size-30 ${dateStyling}`}
+    data-date={event.date}
+  >
+    <span class="text-xl font-light tracking-widest">{month}</span>
+    <span class="text-4xl">{day}</span>
+  </div>
+  <div class={`flex flex-col w-full py-3 ${bodyStyling}`}>
+    <div class="flex w-full flex-col items-center gap-3 px-3 md:flex-row">
+      <span class="h-full text-2xl">{event.name}</span>
+      <span class="text-gray-500 dark:text-gray-200">{event.time}</span>
+    </div>
+    <div class="flex grow flex-col items-center px-5 py-3 md:items-start">
+      <span>{event.description}</span>
+    </div>
+  </div>
+</div>

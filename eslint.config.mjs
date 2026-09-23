@@ -1,42 +1,33 @@
 import js from '@eslint/js';
-import globals from 'globals';
-import { defineConfig } from 'eslint/config';
-import { parser as tsParser, plugin as tsPlugin } from 'typescript-eslint';
-import astro from 'eslint-plugin-astro';
+import astroPlugin from 'eslint-plugin-astro';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import tseslint from 'typescript-eslint';
 
-export default defineConfig([
+export default [
+  js.configs.recommended,
+  ...astroPlugin.configs['recommended'],
+  eslintConfigPrettier,
+
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '**/.astro/**'],
-  },
-  {
-    files: ['**/*.{js,mjs,cjs}'],
-    plugins: { js },
-    extends: ['js/recommended'],
-    languageOptions: { globals: globals.browser },
-    rules: {
-      'no-unused-vars': 'warn',
-      'no-undef': 'warn',
-      'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
-      eqeqeq: 'warn',
-      semi: 'warn',
-    },
-  },
-  {
-    files: ['**/*.{ts,mts}'],
+    files: ['**/*.astro'],
     languageOptions: {
-      parser: tsParser,
-      ecmaVersion: 2017,
-    },
-    plugins: {
-      '@typescript-eslint': tsPlugin,
-    },
-    rules: {
-      eqeqeq: 'warn',
-      semi: 'warn',
-      '@typescript-eslint/consistent-type-imports': 'warn',
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'warn',
+      parser: astroPlugin.parser,
+      parserOptions: {
+        parser: tseslint.parser,
+        extraFileExtensions: ['.astro'],
+      },
     },
   },
-  ...astro.configs.recommended,
-]);
+
+  {
+    rules: {
+      // Custom Rules Here
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'prefer-const': 'error',
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+
+      'astro/no-set-html-directive': 'error',
+      'astro/no-unused-css-selector': 'warn',
+    },
+  },
+];

@@ -1,0 +1,56 @@
+---
+import Image from 'astro/components/Image.astro';
+import '../../styles/global.css';
+const BASE_URL = import.meta.env.BASE_URL;
+---
+
+<header>
+  <nav class="bg-blue-950 p-5">
+    <ul class="mx-10 flex justify-center md:justify-between">
+      <li class="hidden md:block">
+        <a href={`${BASE_URL}`}>
+          <Image
+            src={`${BASE_URL}/images/whitelogo.svg`}
+            alt="WDD Society"
+            width={85}
+            height={85}
+            loading="eager"
+          />
+        </a>
+      </li>
+      <li class="flex items-center justify-center">
+        <ul class="flex items-center gap-5 text-white">
+          <li>
+            <a href={`${BASE_URL}`} class="rounded-sm px-2 py-1 hover:bg-white hover:text-blue-950">
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              href={`${BASE_URL}/members`}
+              class="rounded-sm px-2 py-1 hover:bg-white hover:text-blue-950"
+            >
+              Members
+            </a>
+          </li>
+          <li>
+            <a
+              href={`${BASE_URL}/projects`}
+              class="rounded-sm px-2 py-1 hover:bg-white hover:text-blue-950"
+            >
+              Projects
+            </a>
+          </li>
+          <li>
+            <a
+              href={`${BASE_URL}/events`}
+              class="rounded-sm px-2 py-1 hover:bg-white hover:text-blue-950"
+            >
+              Events
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</header>
